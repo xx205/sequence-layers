@@ -31,3 +31,21 @@ sequence modeling.
     recurrent, attention architectures).
 *   A quick path to deployment with tf.lite support for every layer.
 *   Tracking of invalid timesteps (those computed from padding).
+
+## PyTorch BEST-RQ Example
+
+A simple example to pretrain the [BEST-RQ] model on the Librispeech dataset is
+provided in `pytorch_examples/best_rq_librispeech.py`. This implementation
+mirrors the Conformer encoder from `sequence_layers/tensorflow/examples`
+and does not rely on external BEST‑RQ packages. Only `torchaudio` is required
+for dataset loading. Default hyper‑parameters roughly follow the paper, using an
+8192 entry codebook and 16‑d projections. Before training, run
+`python pytorch_examples/compute_cmvn.py` to compute global CMVN statistics.
+Inputs are normalized using these statistics and masked waveform segments are
+replaced with Gaussian noise. The dataloader returns each batch alongside the
+original lengths, which must be passed to the training wrapper. The default
+batch size is 16. Run the example with:
+
+```bash
+python pytorch_examples/best_rq_librispeech.py --download
+```
